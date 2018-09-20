@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Benchmark Tests</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="inner">
+      <div class="tests-container">
+        <h2>Tests</h2>
+        <div id="tests"></div>
+      </div>
+      <div class="results-container display-none">
+        <h2>Results</h2>
+        <div id="results"></div>
+      </div>
+    </div>
+  </body>
+  <style media="screen">
+    html {
+      font-family: sans-serif;
+    }
+    h2 {
+      margin: 5px 0 15px 0;
+    }
+    .inner {
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+    .inner > div {
+      margin-bottom: 15px;
+      border: 1px solid black;
+      border-radius: 3px;
+      padding: 20px;
+    }
+    .tests-container {
+    }
+    .tests-container a {
+      display: block;
+      padding-bottom: 10px;
+    }
+    .results-container {
+    }
+
+    .display-none {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+  (function() {
+    init();
+
+    function init() {
+      axios.get('/api/tests')
+        .then(function(res) { renderTests(res.data); })
+        .catch(console.error);
+    }
+
+    function renderTests(data) {
+      for(var i = 0, count = data.length; i < count; i++){
+        renderTest(data[i]);
+      }
+    }
+
+    function renderTest(data) {
+      var el = attachElement('a', data, 'tests');
+      el.href = 'api/run?test=' + data;
+      el.onclick = onTestClick;
+    }
+
+    function renderResults(data) {
+      for(var i = 0, count = data.length; i < count; i++) {
+        renderResult(data[i]);
+      }
+    }
+
+    function renderResult(data) {
+      attachElement('h3', data, 'results');
+    }
+
+    function attachElement(type, content, parent) {
+      var el = document.createElement(type);
+      el.appendChild(document.createTextNode(content));
+      if(parent.appendChild) {
+        parent.appendChild(el);
+      } else {
+        document.getElementById(parent).appendChild(el);
+      }
+      return el;
+    }
+
+    function onTestClick(event) {
+      event.preventDefault();
+      axios.get(event.currentTarget.href)
+        .then(function(res) { renderResults(res.data.results); })
+        .catch(console.error);
+    }
+  })();
+  </script>
+</html>

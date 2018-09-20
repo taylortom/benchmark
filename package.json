@@ -1,0 +1,26 @@
+{
+  "name": "benchmark-runner",
+  "version": "0.0.1",
+  "description": "Simple module to run basic JS tests using Benchmark.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taylortom/benchmark.git"
+  },
+  "keywords": [
+    "benchmark.js",
+    "node.js"
+  ],
+  "author": "Thomas Taylor <hello@tomtaylor.name> (http://tomtaylor.name/)",
+  "license": "MIT",
+  "homepage": "https://github.com/taylortom/benchmark#readme",
+  "dependencies": {
+    "benchmark": "2.1.4",
+    "chalk": "2.4.1",
+    "express": "4.16.3",
+    "fs-extra": "7.0.0"
+  }
+}
